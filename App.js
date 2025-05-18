@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+
+import React, { useState, useEffect } from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import Navigation from './src/Navigation';
+import loadFonts from '../consoles/src/LoadFonts';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  // const [fontsLoaded] = useFonts({
+  //   'Goldman-Bold': require('./assets/fonts/Goldman-Bold.ttf'),
+  //   'Goldman-Regular': require('./assets/fonts/Goldman-Regular.ttf'),
+  //   'Geologica-SemiBold': require('./assets/fonts/Geologica-SemiBold.ttf'),
+  // });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  // if (!fontsLoaded) {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator size="large" />
+  //     </View>
+  //   );
+  // }
+
+  return <Navigation />;
+}

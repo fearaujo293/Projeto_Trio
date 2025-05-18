@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-const HomeScreen = () => {
+const Home = () => {
 const navigation = useNavigation();
 
 const handleNavigateToDetails = () => {
@@ -41,4 +41,4 @@ marginTop: 16,
 },
 });
 
-export default HomeScreen;
+export default Home;
