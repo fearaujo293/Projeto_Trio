@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, FlatList, Text, View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Importa o hook de navegação
 import ConsoleCard from '../components/ConsoleCard';
 import BottomNavBar from '../components/BottomNavBar';
 import SearchBar from '../components/SearchBar';
@@ -37,6 +38,8 @@ export default function Consoles() {
   const [selectedTab, setSelectedTab] = useState('videogames');
   const [favorites, setFavorites] = useState([]); // IDs dos favoritos
 
+  const navigation = useNavigation(); // Inicializa o hook de navegação
+
   // Função para alternar favorito
   function toggleFavorite(id) {
     setFavorites(prev =>
@@ -44,6 +47,15 @@ export default function Consoles() {
         ? prev.filter(favId => favId !== id)
         : [...prev, id]
     );
+  }
+
+  // Função para tratar seleção da aba
+  function handleSelectTab(tabKey) {
+    if (tabKey === 'add') {
+      navigation.navigate('AddConsole'); // Navega para a tela de adicionar console
+    } else {
+      setSelectedTab(tabKey);
+    }
   }
 
   // Lista filtrada para aba Videogames
@@ -114,7 +126,7 @@ export default function Consoles() {
       )}
 
       {/* Barra de navegação inferior */}
-      <BottomNavBar selected={selectedTab} onSelect={setSelectedTab} />
+      <BottomNavBar selected={selectedTab} onSelect={handleSelectTab} />
     </SafeAreaView>
   );
 }
