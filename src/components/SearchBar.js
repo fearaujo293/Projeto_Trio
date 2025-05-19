@@ -1,20 +1,23 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import colors from '../styles/colors';
 
 export default function SearchBar({ value, onChangeText }) {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <View style={styles.container}>
       <AntDesign name="search1" size={22} color={colors.white} />
       <TextInput
         style={styles.input}
-        placeholder="Pesquisar console..."
+        placeholder={isFocused ? '' : 'Pesquisar console...'}
         placeholderTextColor={colors.white}
         value={value}
         onChangeText={onChangeText}
         autoCapitalize="none"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
     </View>
   );

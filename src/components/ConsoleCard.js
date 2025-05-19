@@ -27,11 +27,11 @@ export default function ConsoleCard({ item, isFavorite, onToggleFavorite }) {
           >
             <Text style={styles.detailsButtonText}>Detalhes</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onToggleFavorite}>
+          <TouchableOpacity onPress={onToggleFavorite} style={styles.heartButton}>
             <AntDesign
               name={isFavorite ? "heart" : "hearto"}
               size={28}
-              color={isFavorite ? "#E74C3C" : colors.heart} // vermelho quando favoritado, cor padrão caso contrário
+              color={isFavorite ? "#E74C3C" : "#A2A2A2"} // vermelho se favoritado, cinza se não
             />
           </TouchableOpacity>
         </View>
@@ -72,9 +72,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   brand: {
-    fontSize: 12,
-    color: colors.brand,
+    fontSize: 18, // tamanho aumentado
+    color: "#FFFFFF",
     marginTop: 2,
+    fontWeight: '600',
   },
   ratingRow: {
     flexDirection: 'row',
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.white,
-    fontSize: 13,
+    fontSize: 16,
     marginVertical: 4,
   },
   footer: {
@@ -108,5 +109,8 @@ const styles = StyleSheet.create({
     color: colors.card,
     fontWeight: 'bold',
     fontSize: 14,
+  },
+  heartButton: {
+    padding: 6,
   },
 });
