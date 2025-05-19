@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import Navigation from './src/Navigation';
-import loadFonts from '../consoles/src/LoadFonts';
+import loadFonts from './src/LoadFonts';
 
 export default function App() {
   // const [fontsLoaded] = useFonts({

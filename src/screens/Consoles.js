@@ -1,6 +1,7 @@
-import React, { useState } from 'react'; // Importar useState
+import React, { useState } from 'react';
 import { SafeAreaView, FlatList, Text, View, StyleSheet } from 'react-native';
 import ConsoleCard from '../components/ConsoleCard';
+import BottomNavBar from '../components/BottomNavBar';
 import SearchBar from '../components/SearchBar';
 import colors from '../styles/colors';
 
@@ -32,44 +33,88 @@ const consolesData = [
 ];
 
 export default function Consoles() {
-  const [search, setSearch] = useState(''); // Estado para texto da pesquisa
+  const [search, setSearch] = useState('');
+  const [selectedTab, setSelectedTab] = useState('videogames');
+  const [favorites, setFavorites] = useState([]); // IDs dos favoritos
 
-  // Filtra a lista de consoles conforme o texto digitado
+  // Função para alternar favorito
+  function toggleFavorite(id) {
+    setFavorites(prev =>
+      prev.includes(id)
+        ? prev.filter(favId => favId !== id)
+        : [...prev, id]
+    );
+  }
+
+  // Lista filtrada para aba Videogames
   const filteredData = consolesData.filter(item =>
     item.title.toLowerCase().includes(search.trim().toLowerCase())
   );
 
+  // Lista apenas dos favoritos
+  const favoriteData = consolesData.filter(item =>
+    favorites.includes(item.id)
+  );
+
+  // Decide qual lista mostrar
+  let dataToShow = [];
+  let sectionTitle = '';
+  let showSearch = false;
+
+  if (selectedTab === 'videogames') {
+    dataToShow = filteredData;
+    sectionTitle = 'Consoles';
+    showSearch = true;
+  } else if (selectedTab === 'favorites') {
+    dataToShow = favoriteData;
+    sectionTitle = 'Favoritos';
+    showSearch = false;
+  } else {
+    // Aba "Adicionar" ou outras
+    sectionTitle = 'Adicionar';
+    dataToShow = [];
+    showSearch = false;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header com fundo roxo escuro */}
+      {/* Cabeçalho */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Level Up</Text>
       </View>
 
-      {/* Barra de pesquisa */}
-      <SearchBar value={search} onChangeText={setSearch} />
+      {/* Barra de pesquisa só na aba Videogames */}
+      {showSearch && <SearchBar value={search} onChangeText={setSearch} />}
 
       {/* Título da seção */}
-      <Text style={styles.sectionTitle}>Consoles</Text>
+      <Text style={styles.sectionTitle}>{sectionTitle}</Text>
 
-      {/* Lista de consoles filtrada */}
-      <FlatList
-        data={filteredData}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <ConsoleCard item={item} />}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>Nenhum console encontrado.</Text>
-        }
-      />
+      {/* Lista de consoles ou favoritos */}
+      {(selectedTab === 'videogames' || selectedTab === 'favorites') && (
+        <FlatList
+          data={dataToShow}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <ConsoleCard
+              item={item}
+              isFavorite={favorites.includes(item.id)}
+              onToggleFavorite={() => toggleFavorite(item.id)}
+            />
+          )}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>
+              {selectedTab === 'favorites'
+                ? 'Nenhum favorito adicionado.'
+                : 'Nenhum console encontrado.'}
+            </Text>
+          }
+        />
+      )}
 
-      {/* Rodapé fixo */}
-      <View style={styles.bottomNav}>
-        <Text style={styles.navItem}>🎮</Text>
-        <Text style={styles.navItem}>❤️</Text>
-        <Text style={styles.navItem}>➕</Text>
-      </View>
+      {/* Barra de navegação inferior */}
+      <BottomNavBar selected={selectedTab} onSelect={setSelectedTab} />
     </SafeAreaView>
   );
 }
@@ -77,21 +122,19 @@ export default function Consoles() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#D1CACA' , 
+    backgroundColor:'#D1CACA',
   },
   header: {
-    backgroundColor:'#30052F' , 
+    backgroundColor:'#30052F',
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderBottomLeftRadius: 18,
     borderBottomRightRadius: 18,
   },
   headerTitle: {
-    color: '#FFFFFF', 
+    color: '#FFFFFF',
     fontSize: 36,
     fontWeight: 'bold',
-    opacity: 1,
-    position: 'relative',
     marginBottom: 12,
   },
   sectionTitle: {
@@ -101,24 +144,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     marginLeft: 20,
     color: colors.primary,
-  },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 62,
-    backgroundColor: '#3D1047',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
-    elevation: 14,
-  },
-  navItem: {
-    color: colors.white,
-    fontSize: 28,
   },
   emptyText: {
     textAlign: 'center',

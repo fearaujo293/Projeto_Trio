@@ -31,7 +31,7 @@ export default function ConsoleCard({ item, isFavorite, onToggleFavorite }) {
             <AntDesign
               name={isFavorite ? "heart" : "hearto"}
               size={28}
-              color={isFavorite ? colors.lilac : colors.heart}
+              color={isFavorite ? "#E74C3C" : colors.heart} // vermelho quando favoritado, cor padrão caso contrário
             />
           </TouchableOpacity>
         </View>
