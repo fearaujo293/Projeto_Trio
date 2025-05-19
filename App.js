@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
+import loadFonts from './src/LoadFonts'; // Certifique-se de importar sua função loadFonts
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -28,9 +28,5 @@ export default function App() {
     );
   }
 
-  return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
-  );
+  return <AppNavigator />;
 }
