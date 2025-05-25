@@ -11,7 +11,6 @@ const [name, setName] = useState(item.name);
 const [description, setDescription] = useState(item.description);
 
 const handleUpdate = () => {
-// Implement your update logic here
 console.log('Updating item:', { name, description });
 };
 
